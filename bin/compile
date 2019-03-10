@@ -5,8 +5,8 @@ BUILD_DIR=${1:-}
 CACHE_DIR=${2:-}
 ENV_DIR=${3:-}
 
-if [ -f $ENV_DIR/PROJECT_PATH ]; then
-	PROJECT_PATH=`cat $ENV_DIR/PROJECT_PATH`
+if [ -f "$ENV_DIR/PROJECT_PATH" ]; then
+	PROJECT_PATH=`cat $ENV_DIR/PROJECT_PATH2`
 	if [ -d $BUILD_DIR/$PROJECT_PATH ]; then
 		echo "-----> Subdir buildpack in $PROJECT_PATH"
 		echo "       creating cache: $CACHE_DIR"
@@ -25,9 +25,15 @@ if [ -f $ENV_DIR/PROJECT_PATH ]; then
 		rm -rf $TMP_DIR
 		exit 0
 	fi
+	echo "PROJECT_PATH is not found"
+	echo "List in build dir"
+	ls -al $BUILD_DIR
+	exit 1
 fi
 
 echo "PROJECT_PATH is undefined"
+echo "List of config vars."
+ls -al $ENV_DIR
 exit 1
 
 
